@@ -1,6 +1,6 @@
 class Oystercard
 
-attr_reader :balance, :entry_station
+attr_reader :balance, :entry_station, :exit_station, :journeys
 
 MAXIMUM_BALANCE = 90.0
 MINIMUM_FARE = 1.0
@@ -12,6 +12,8 @@ def initialize(limit = MAXIMUM_BALANCE, floor = MINIMUM_FARE)
   @in_journey = false
   @minimum_fare = floor
   @entry_station = ""
+  @exit_station = ""
+  @journeys= []
 
 end
 
@@ -40,9 +42,11 @@ def touch_in(entry_station = "Liverpool")
   @entry_station = entry_station
 end
 
-def touch_out
+def touch_out(exit_station = "Euston")
 
   deduct(@minimum_fare)
+  @exit_station= exit_station
+  @journeys << Hash[@entry_station,@exit_station]
   @entry_station = nil
   @in_journey = false
 end

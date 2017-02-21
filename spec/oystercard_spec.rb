@@ -2,7 +2,9 @@ require 'oystercard'
 
 describe Oystercard do
 
-let(:station){ double :station}
+let(:entry_station){ double :station}
+let(:exit_station){ double :station}
+let(:journey){{ entry_station: entry_station, exit_station: exit_station }}
 
 describe '#balance' do
   it 'checks that a new card has a balance' do
@@ -62,16 +64,28 @@ describe '#touch_out' do
     subject.touch_in
     expect{ subject.touch_out }.to change{subject.balance}.by -Oystercard::MINIMUM_FARE
   end
-end
 
-describe '#touch_in' do
-  it 'records entry station' do
+  it 'records exit station' do
       # subject.top_up(20)
       # expect(subject.touch_in(station)).to eq(subject.entry_station)
       subject.top_up(20)
-      subject.touch_in(station)
-      expect(subject.entry_station).to eq station
+      subject.touch_in(entry_station)
+      subject.touch_out(exit_station)
+      expect(subject.exit_station).to eq exit_station
   end
+
+  it 'checks that the card history has an empty list of journeys' do
+    expect(subject.journeys).to be_empty
+  end
+
+  it 'stores a journey' do
+    subject.top_up(20)
+    subject.touch_in(entry_station)
+    subject.touch_out(exit_station)
+    expect(subject.journeys).to include(entry_station => exit_station)
+  end
+
+
 end
 
 end
