@@ -23,15 +23,15 @@ describe '#top_up' do
   end
 end
 
-describe '#deduct' do
-
-  it { is_expected.to respond_to(:deduct).with(1).argument }
-
-  it 'deducts the fare from the cards balance' do
-    subject.top_up 10
-    expect{ subject.deduct 5 }.to change{ subject.balance }.by -5
-  end
-end
+# describe '#deduct' do
+#
+#   it { is_expected.to respond_to(:deduct).with(1).argument }
+#
+#   it 'deducts the fare from the cards balance' do
+#     subject.top_up 10
+#     expect{ subject.deduct 5 }.to change{ subject.balance }.by -5
+#   end
+# end
 
 describe '#minimum amount' do
   it ' checks that balance cannot go below limit' do
@@ -53,6 +53,14 @@ describe '#in_journey?' do
     subject.touch_out
     expect(subject.in_journey?).not_to be true
   end
+
+describe '#touch_out' do
+  it 'deducts minimum fare at end of journey' do
+    subject.top_up(50)
+    subject.touch_in
+    expect{ subject.touch_out }.to change{subject.balance}.by -Oystercard::MINIMUM_FARE
+  end
+end
 
 end
 

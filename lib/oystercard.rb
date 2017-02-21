@@ -20,9 +20,6 @@ def top_up(amount)
 
 end
 
-def deduct(amount)
-  @balance -= amount
-end
 
 def check_if_new_balance_will_be_above_limit?(amount)
     (@balance + amount) > @limit
@@ -47,6 +44,14 @@ end
 
 def touch_out
   @in_journey = false
+  deduct(@minimum_fare)
 end
+
+private
+
+def deduct(amount)
+  @balance -= amount
+end
+
 
 end
