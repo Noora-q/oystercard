@@ -2,6 +2,8 @@ require 'oystercard'
 
 describe Oystercard do
 
+let(:station){ double :station}
+
 describe '#balance' do
   it 'checks that a new card has a balance' do
     expect(subject.balance).to be_a Float
@@ -51,7 +53,7 @@ describe '#in_journey?' do
     subject.top_up(50)
     subject.touch_in
     subject.touch_out
-    expect(subject.in_journey?).not_to be true
+    expect(subject.in_journey?).to eq false
   end
 
 describe '#touch_out' do
@@ -62,8 +64,16 @@ describe '#touch_out' do
   end
 end
 
+describe '#touch_in' do
+  it 'records entry station' do
+      # subject.top_up(20)
+      # expect(subject.touch_in(station)).to eq(subject.entry_station)
+      subject.top_up(20)
+      subject.touch_in(station)
+      expect(subject.entry_station).to eq station
+  end
 end
 
-
+end
 
 end
