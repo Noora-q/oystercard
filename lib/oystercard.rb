@@ -51,6 +51,7 @@ def touch_out(exit_station = "Euston")
   @in_journey = false
 end
 
+
 private
 
 def deduct(amount)
