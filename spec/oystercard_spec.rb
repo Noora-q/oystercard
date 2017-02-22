@@ -6,8 +6,7 @@ describe Oystercard do
 
 let(:entry_station){ double :station}
 let(:exit_station){ double :station}
-let(:journey){{ entry_station: entry_station, exit_station: exit_station }}
-
+# let(:journey){{ entry_station: entry_station, exit_station: exit_station }}
 
 
 describe '#balance' do
@@ -30,16 +29,6 @@ describe '#top_up' do
     expect{subject.top_up 1}.to raise_error "card balance cannot go above #{limit}"
   end
 end
-
-# describe '#deduct' do
-#
-#   it { is_expected.to respond_to(:deduct).with(1).argument }
-#
-#   it 'deducts the fare from the cards balance' do
-#     subject.top_up 10
-#     expect{ subject.deduct 5 }.to change{ subject.balance }.by -5
-#   end
-# end
 
 describe '#minimum amount' do
   it ' checks that balance cannot go below limit' do
@@ -67,11 +56,16 @@ describe '#touch_out' do
     subject.top_up(50)
     subject.touch_in
     expect{ subject.touch_out }.to change{subject.balance}.by -Oystercard::MINIMUM_FARE
-  end
+end
+
+# describe '#fare_checker' do
+#   it 'checks that penalty fare is taken into account' do
+#     journey= Journey.new
+#     journey.should_receive(:fare_checker).with(nil,nil).and_return(@penalty_fare)
+#   end
+# end
 
   it 'records exit station' do
-      # subject.top_up(20)
-      # expect(subject.touch_in(station)).to eq(subject.entry_station)
       journey= Journey.new("Euston","Hampstead")
       subject.top_up(20)
       subject.touch_in(entry_station)
@@ -89,6 +83,7 @@ describe '#touch_out' do
     subject.touch_out(exit_station)
     expect(subject.journeys).to include(entry_station => exit_station)
   end
+
 
 
 end

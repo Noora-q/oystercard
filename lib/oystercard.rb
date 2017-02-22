@@ -8,17 +8,17 @@ attr_reader :balance, :journeys
 
 MAXIMUM_BALANCE = 90.0
 MINIMUM_FARE = 1.0
+PENALTY_FARE = 6.0
 
-def initialize(limit = MAXIMUM_BALANCE, floor = MINIMUM_FARE)
+def initialize(limit = MAXIMUM_BALANCE, floor = MINIMUM_FARE, penalty = PENALTY_FARE)
 
   @balance = 0.0
   @limit = limit
   @in_journey = false
   @minimum_fare = floor
-  # @entry_station = ""
-  # @exit_station = ""
   @journeys= []
   @journey = Journey.new
+  @penalty_fare = penalty
 
 end
 
@@ -48,16 +48,30 @@ def touch_in(entry_station= "Liverpool")
 end
 
 def touch_out(exit_station= "Hampstead")
-
-  deduct(@minimum_fare)
   @journey.exit_station= exit_station
+  fare_checker
   @journeys << Hash[@journey.entry_station,@journey.exit_station]
-  @journey.entry_station=nil
-  @in_journey=false
+  leaving_the_station
+
 end
 
 
 private
+
+def fare_checker
+  if @journey.exit_station == nil || @journey.entry_station == nil
+    deduct(@penalty_fare)
+    puts "penalty deducted"
+  else
+    deduct(@minimum_fare)
+  end
+end
+
+def leaving_the_station
+  @journey.entry_station=nil
+  @in_journey=false
+end
+
 
 def deduct(amount)
   @balance -= amount
