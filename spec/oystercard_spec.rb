@@ -1,10 +1,14 @@
 require 'oystercard'
+require 'journey'
 
 describe Oystercard do
+
 
 let(:entry_station){ double :station}
 let(:exit_station){ double :station}
 let(:journey){{ entry_station: entry_station, exit_station: exit_station }}
+
+
 
 describe '#balance' do
   it 'checks that a new card has a balance' do
@@ -68,10 +72,11 @@ describe '#touch_out' do
   it 'records exit station' do
       # subject.top_up(20)
       # expect(subject.touch_in(station)).to eq(subject.entry_station)
+      journey= Journey.new("Euston","Hampstead")
       subject.top_up(20)
       subject.touch_in(entry_station)
       subject.touch_out(exit_station)
-      expect(subject.exit_station).to eq exit_station
+      expect(journey.exit_station).to eq "Hampstead"
   end
 
   it 'checks that the card history has an empty list of journeys' do

@@ -1,6 +1,10 @@
+require_relative 'journey'
+
 class Oystercard
 
-attr_reader :balance, :entry_station, :exit_station, :journeys
+attr_reader :balance, :journeys
+#:entry_station, :exit_station, :journeys
+
 
 MAXIMUM_BALANCE = 90.0
 MINIMUM_FARE = 1.0
@@ -11,9 +15,10 @@ def initialize(limit = MAXIMUM_BALANCE, floor = MINIMUM_FARE)
   @limit = limit
   @in_journey = false
   @minimum_fare = floor
-  @entry_station = ""
-  @exit_station = ""
+  # @entry_station = ""
+  # @exit_station = ""
   @journeys= []
+  @journey = Journey.new
 
 end
 
@@ -33,22 +38,22 @@ def minimum_amount?
 end
 
 def in_journey?
-  !!entry_station
+  !!@journey.entry_station
 end
 
-def touch_in(entry_station = "Liverpool")
+def touch_in(entry_station= "Liverpool")
   raise "card balance is below minimum fare" if minimum_amount?
-  @in_journey = true
-  @entry_station = entry_station
+  @journey.entry_station = entry_station
+  @in_journey=true
 end
 
-def touch_out(exit_station = "Euston")
+def touch_out(exit_station= "Hampstead")
 
   deduct(@minimum_fare)
-  @exit_station= exit_station
-  @journeys << Hash[@entry_station,@exit_station]
-  @entry_station = nil
-  @in_journey = false
+  @journey.exit_station= exit_station
+  @journeys << Hash[@journey.entry_station,@journey.exit_station]
+  @journey.entry_station=nil
+  @in_journey=false
 end
 
 
