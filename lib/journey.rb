@@ -7,6 +7,8 @@ def initialize(entry_station = nil, exit_station = nil)
   @exit_station = exit_station
 end
 
-
+def in_journey?
+  !!self.entry_station
+end
 
 end

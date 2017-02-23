@@ -17,8 +17,6 @@ end
 
 describe '#top_up' do
 
-  it { is_expected.to respond_to(:top_up).with(1).argument }
-
   it 'tops up' do
     expect{ subject.top_up 1}.to change{ subject.balance }.by 1
   end
@@ -37,26 +35,13 @@ describe '#minimum amount' do
   end
 end
 
-describe '#in_journey?' do
-  it 'signals that the card is being used in a journey' do
-    subject.top_up(50)
-    subject.touch_in
-    expect(subject.in_journey?).to be true
-  end
-
-  it 'signals that the card is not being used in a journey' do
-    subject.top_up(50)
-    subject.touch_in
-    subject.touch_out
-    expect(subject.in_journey?).to eq false
-  end
-
 describe '#touch_out' do
+
   it 'deducts minimum fare at end of journey' do
     subject.top_up(50)
     subject.touch_in
     expect{ subject.touch_out }.to change{subject.balance}.by -Oystercard::MINIMUM_FARE
-end
+  end
 
 # describe '#fare_checker' do
 #   it 'checks that penalty fare is taken into account' do
@@ -83,11 +68,6 @@ end
     subject.touch_out(exit_station)
     expect(subject.journeys).to include(entry_station => exit_station)
   end
-
-
-
-end
-
 end
 
 end

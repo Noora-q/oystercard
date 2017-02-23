@@ -37,9 +37,9 @@ def minimum_amount?
   true if @balance < @minimum_fare
 end
 
-def in_journey?
-  !!@journey.entry_station
-end
+# def in_journey?
+#   @journey.entry_station
+# end
 
 def touch_in(entry_station= "Liverpool")
   raise "card balance is below minimum fare" if minimum_amount?
@@ -68,8 +68,8 @@ def fare_checker
 end
 
 def leaving_the_station
-  @journey.entry_station=nil
-  @in_journey=false
+  @journey.entry_station = nil
+  @in_journey = false
 end
 
 
