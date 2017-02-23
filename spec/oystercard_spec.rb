@@ -8,42 +8,49 @@ describe Oystercard do
   let(:exit_station){ double :station}
   subject(:card) { described_class.new(balance) }
   max = Oystercard::MAXIMUM_BALANCE
+  min = Journey::MINIMUM_FARE
 
-  describe '#top_up' do
-    it 'tops up' do
-      expect{ subject.top_up 1}.to change{ subject.balance }.by 1
+  describe 'Balance' do
+    it '#top_up' do
+      expect{ card.top_up(min) }.to change{ card.balance }.by min
     end
 
     context "maximum balance error" do
       let(:balance) {max}
       it 'checks that balance cannot go above limit' do
         message = "card balance cannot go above #{max}"
-        expect{subject.top_up 1}.to raise_error message
+        expect{ card.top_up(min) }.to raise_error message
+      end
+    end
+
+    context 'stops card being used without minimum fare' do
+      it 'checks that balance cannot go below minimum fare' do
+        message = "card balance is below minimum fare"
+        expect { card.touch_in("Euston") }.to raise_error message
       end
     end
   end
 
-  describe '#minimum amount' do
-
-    it ' checks that balance cannot go below limit' do
-      expect { subject.touch_in("Euston") }.to raise_error "card balance is below minimum fare"
+  describe 'Touching in and out' do
+    context "#touch_in" do
+      let(:balance) {max}
+      it ' raises error on multiple touch-in' do
+        message = "Cannot touch in twice"
+        expect{ 2.times{card.touch_in("Euston")} }.to raise_error message
+      end
     end
-  end
 
-  describe '#touch_in' do
+    context '#touch_out' do
     let(:balance) {max}
-    it ' raises error on multiple touch-in' do
-      expect{ 2.times{card.touch_in("Euston")} }.to raise_error "Cannot touch in twice"
+      it 'deducts minimum fare at end of journey' do
+        card.touch_in("Euston")
+        expect{ card.touch_out("Hampstead") }.to change{card.balance}.by -min
+      end
     end
   end
 
-  describe '#touch_out' do
-  let(:balance) {max}
-    it 'deducts minimum fare at end of journey' do
-      subject.touch_in("Euston")
-      expect{ subject.touch_out("Hampstead") }.to change{subject.balance}.by -1#Oystercard::MINIMUM_FARE
-    end
-
+  describe "Journey list" do
+    let(:balance) { max }
     it 'checks that the card history has an empty list of journeys' do
       expect(subject.journeys).to be_empty
     end

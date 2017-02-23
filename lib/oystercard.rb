@@ -30,17 +30,11 @@ attr_reader :balance, :journeys
     @journey.finish(exit_station)
     deduct
     @journeys << Hash[@journey.entry_station,@journey.exit_station]
-    leaving_the_station
+    @journey.entry_station = nil
   end
 
 
   private
-
-  def leaving_the_station
-    @journey.entry_station = nil
-    @in_journey = false
-  end
-
 
   def deduct
     @balance -= @journey.fare_checker
