@@ -3,6 +3,8 @@ require 'journey'
 describe Journey do
 subject(:journey) { described_class.new}#(entry_station)}
 
+
+
   describe '#in_journey?' do
     context "should be in journey when passed an entry station" do
       let(:entry_station) { double :station }
@@ -15,7 +17,16 @@ subject(:journey) { described_class.new}#(entry_station)}
     it 'signals that the card is not being used in a journey' do
       expect(subject.in_journey?).to eq false
     end
+
+    # it 'deducts minimum fare at end of journey' do
+    #   # subject.top_up(50)
+    #   # subject.touch_in
+    #   expect{ subject.touch_out }.to change{subject.balance}.by -Oystercard::MINIMUM_FARE
+    # end
+
   end
+
+
   # let(:station) { double :station, zone: 1}
   #
   # it "knows if a journey is not complete" do

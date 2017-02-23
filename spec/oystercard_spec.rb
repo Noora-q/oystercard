@@ -40,7 +40,7 @@ describe '#touch_out' do
   it 'deducts minimum fare at end of journey' do
     subject.top_up(50)
     subject.touch_in
-    expect{ subject.touch_out }.to change{subject.balance}.by -Oystercard::MINIMUM_FARE
+    expect{ subject.touch_out }.to change{subject.balance}.by -1#Oystercard::MINIMUM_FARE
   end
 
 # describe '#fare_checker' do
