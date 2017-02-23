@@ -43,18 +43,11 @@ describe '#touch_out' do
     expect{ subject.touch_out }.to change{subject.balance}.by -1#Oystercard::MINIMUM_FARE
   end
 
-# describe '#fare_checker' do
-#   it 'checks that penalty fare is taken into account' do
-#     journey= Journey.new
-#     journey.should_receive(:fare_checker).with(nil,nil).and_return(@penalty_fare)
-#   end
-# end
-
   it 'records exit station' do
       journey= Journey.new("Euston","Hampstead")
       subject.top_up(20)
-      subject.touch_in(entry_station)
-      subject.touch_out(exit_station)
+      # subject.touch_in(entry_station)
+      # subject.touch_out(exit_station)
       expect(journey.exit_station).to eq "Hampstead"
   end
 

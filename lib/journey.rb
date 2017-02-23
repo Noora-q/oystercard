@@ -15,8 +15,6 @@ def in_journey?
 end
 
 def fare_checker
-
-
   if self.exit_station == nil || self.entry_station == nil
     PENALTY_FARE
     puts "penalty deducted"
@@ -24,5 +22,15 @@ def fare_checker
     MINIMUM_FARE
   end
 end
+
+def start(entry)
+  @entry_station = entry
+end
+
+def finish(departure)
+  @exit_station = departure
+end
+
+
 
 end

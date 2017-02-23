@@ -18,10 +18,12 @@ subject(:journey) { described_class.new}#(entry_station)}
       expect(subject.in_journey?).to eq false
     end
 
-    # it 'deducts minimum fare at end of journey' do
-    #   # subject.top_up(50)
-    #   # subject.touch_in
-    #   expect{ subject.touch_out }.to change{subject.balance}.by -Oystercard::MINIMUM_FARE
+    # it 'records exit station' do
+    #     journey= Journey.new("Euston","Hampstead")
+    #     subject.top_up(20)
+    #     subject.touch_in(entry_station)
+    #     subject.touch_out(exit_station)
+    #     expect(journey.exit_station).to eq "Hampstead"
     # end
 
   end

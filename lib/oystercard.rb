@@ -41,13 +41,12 @@ end
 
 def touch_in(entry_station= "Liverpool")
   raise "card balance is below minimum fare" if minimum_amount?
-  @journey.entry_station = entry_station
-  @in_journey=true
+  @journey.start(entry_station)
+
 end
 
 def touch_out(exit_station= "Hampstead")
-  @journey.exit_station= exit_station
-  #fare_checker
+  @journey.finish(exit_station)
   deduct
   @journeys << Hash[@journey.entry_station,@journey.exit_station]
   leaving_the_station
@@ -57,24 +56,14 @@ end
 
 private
 
-# def fare_checker
-#   if @journey.exit_station == nil || @journey.entry_station == nil
-#     deduct(@penalty_fare)
-#     puts "penalty deducted"
-#   else
-#     deduct(@minimum_fare)
-#   end
-# end
-
 def leaving_the_station
   @journey.entry_station = nil
   @in_journey = false
 end
 
 
-def deduct#(amount)
+def deduct
   @balance -= @journey.fare_checker
-  # @balance -= amount
 end
 
 
