@@ -18,12 +18,15 @@ attr_reader :balance, :journeys
     @balance += amount
   end
 
-  def touch_in(entry_station= "Liverpool")
-    raise "card balance is below minimum fare" if balance < @min_fare
+  def touch_in(entry_station)
+    mesg_1 = "Cannot touch in twice"
+    raise mesg_1 if @journey.in_journey?
+    mesg_2 = "card balance is below minimum fare"
+    raise mesg_2 if balance < @min_fare
     @journey.start(entry_station)
   end
 
-  def touch_out(exit_station= "Hampstead")
+  def touch_out(exit_station)
     @journey.finish(exit_station)
     deduct
     @journeys << Hash[@journey.entry_station,@journey.exit_station]
