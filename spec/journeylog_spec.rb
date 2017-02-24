@@ -12,11 +12,16 @@ describe "Journey list" do
     end
   end
 
-  context "testing that start initializes a journey with an entry station" do
+  context "passing entry and exit stations to journey class" do
     it 'records entry station' do
       expect(log.start("Hampstead")).to eq journey_class.entry_station
     end
+
+    it 'records exit station' do
+      expect(log.finish("Euston")).to eq journey_class.exit_station
+    end
   end
+
 
 
 end

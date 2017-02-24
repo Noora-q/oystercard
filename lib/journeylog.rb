@@ -15,8 +15,8 @@ def start(entry_station)
   @journey_class.start(entry_station)
 end
 
-# def finish(exit_station)
-#
-# end
+def finish(exit_station)
+  @journey_class.finish(exit_station)
+end
 
 end
