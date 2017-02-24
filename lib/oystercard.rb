@@ -1,4 +1,4 @@
-require_relative 'journey'
+require_relative 'journey'#
 
 class Oystercard
 
@@ -8,7 +8,8 @@ attr_reader :balance, :journeys
   def initialize(balance = 0.0)
     @balance = balance
     @journeys= []
-    @journey = Journey.new
+    @journey = Journey.new #
+    @journeylog = Journeylog.new
     @min_fare = Journey::MINIMUM_FARE
   end
 
@@ -20,16 +21,18 @@ attr_reader :balance, :journeys
 
   def touch_in(entry_station)
     mesg_1 = "Cannot touch in twice"
-    raise mesg_1 if @journey.in_journey?
+    raise mesg_1 if @journey.in_journey? # Swap if condition for @journeylog.current_journey
     mesg_2 = "card balance is below minimum fare"
     raise mesg_2 if balance < @min_fare
-    @journey.start(entry_station)
+    # @journeylog.start(entry_station) # Won't work until fare value and current_journey have been
+    # set up in journeylog
+    @journey.start(entry_station) # Needs to be removed later
   end
 
   def touch_out(exit_station)
     @journey.finish(exit_station)
     deduct
-    @journeys << Hash[@journey.entry_station,@journey.exit_station]
+    # @journeys << Hash[@journey.entry_station,@journey.exit_station] # Give this functionality to journeylog
     @journey.entry_station = nil
   end
 
