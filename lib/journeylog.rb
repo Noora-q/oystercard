@@ -4,7 +4,7 @@ require_relative 'journey'
 
 class Journeylog
 
-attr_reader :journeys
+attr_reader :journeys#, :current_journey
 
   def initialize(journey_class = Journey.new)
     @journeys = []
@@ -14,18 +14,20 @@ attr_reader :journeys
 
   def start(entry_station)
     @journey_class.start(entry_station)
-  p  @current_journey = @journey_class.entry_station
+    @current_journey = @journey_class.entry_station
   end
 
   def finish(exit_station)
     @journey_class.finish(exit_station)
-  p  @current_journey = { @journey_class.entry_station => @journey_class.exit_station }
+    @current_journey = { @journey_class.entry_station => @journey_class.exit_station }
+    @journeys << @current_journey
+    @current_journey = nil
   end
 
   private
 
   def current_journey
-    @current_journey
+    @current_journey || @journey_class = Journey.new
   end
 
 end
