@@ -32,7 +32,7 @@ attr_reader :balance, :journeys
   def touch_out(exit_station)
     @journey.finish(exit_station)
     deduct
-    # @journeys << Hash[@journey.entry_station,@journey.exit_station] # Give this functionality to journeylog
+    p @journeys << Hash[@journey.entry_station,@journey.exit_station] # Give this functionality to journeylog
     @journey.entry_station = nil
   end
 

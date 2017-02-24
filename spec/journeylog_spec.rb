@@ -18,12 +18,9 @@ describe "Journey list" do
     end
 
     it 'records exit station' do
-      expect(log.finish("Euston")).to eq journey_class.exit_station
+      expect(log.finish("Euston")).to include (journey_class.entry_station => journey_class.exit_station)
     end
   end
-
-
-
 end
 #
 #   it 'stores a journey' do
